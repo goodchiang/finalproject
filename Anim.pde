@@ -34,6 +34,7 @@ class Anim {
         
       case GAME_CREDIT:
         credit.display(x,y);
+        break;
     }
   }
 
@@ -45,10 +46,10 @@ class Anim {
           x += speedX;
   
           if (x > width + 80) {
-            gameState = GAME_PLAYING;
-            levelState = LEVEL_3;
+            gameState  = GAME_PLAYING;
+            levelState = LEVEL_1;
             setCard();
-            playintro = true;
+            playintro  = true;
             mouseClick = false;
             startBGM.pause();
             playBGM.loop();

@@ -33,7 +33,7 @@ class Snow {
       x = width;
     }
     if (y > height){
-      y = 0;
+      y  = 0;
       vy = 1 + size*maxVy;
     }   
     fill(255,alpha);

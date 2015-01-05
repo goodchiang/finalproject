@@ -53,7 +53,7 @@ void setup(){
   iy = int((height - slotH*slotSize)/2);
   tranX = 60;
   tranY = 30;
-  countDown = 8000;
+  countDown = 20000;
   
   startBGM     = minim.loadFile  ("data/music/startBG.wav");
   playBGM      = minim.loadFile  ("data/music/playBG.mp3");
@@ -216,8 +216,12 @@ void showTime(){
   if(millis()-startTime < countDown){
     int restTime = int(countDown/1000-(millis()-startTime)/1000);
     fill(0,115,109);
+    textSize(25);
+    text("COUNTDOWN",172,270);
     textSize(120);
-    text(restTime,165,380);
+    text(nf(restTime, 2),165,390);
+    textSize(15);
+    text("second(s)",175,420);
   }
   for(int i = 1;i < countDown/1000;i++){
     if(millis()-startTime >= countDown-i*1000 &&
