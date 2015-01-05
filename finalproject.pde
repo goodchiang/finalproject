@@ -53,7 +53,7 @@ void setup(){
   iy = int((height - slotH*slotSize)/2);
   tranX = 60;
   tranY = 30;
-  countDown = 20000;
+  countDown = 8000;
   
   startBGM     = minim.loadFile  ("data/music/startBG.wav");
   playBGM      = minim.loadFile  ("data/music/playBG.mp3");
@@ -95,7 +95,7 @@ void setup(){
   
   reset();
   
-  gameState  = GAME_LOSE;
+  gameState  = GAME_START;
   levelState = LEVEL_1;
 }
 
@@ -104,6 +104,9 @@ void draw(){
     case GAME_START:
       image(startBG,width/2,height/2);
       drawSnow();
+      //fill(0,0,0,50);
+      //rect(310,340,100,60);
+      //rect(310,420,120,50);
       break;
       
     case GAME_INTRO:
@@ -493,14 +496,14 @@ void reset(){
 void startClick(){
   if(mouseButton == LEFT &&
      gameState == GAME_START){
-     if(mouseX > 285 && mouseX < 430 &&
-        mouseY > 400 && mouseY < 455){
+     if(mouseX > 310 && mouseX < 410 &&
+        mouseY > 345 && mouseY < 400){
         intro_1 = true;
         gameState = GAME_INTRO;
         introClickS.trigger();
      }
-     if(mouseX > 471 && mouseX < 613 &&
-        mouseY > 400 && mouseY < 455){
+     if(mouseX > 310 && mouseX < 430 &&
+        mouseY > 420 && mouseY < 470){
         gameState = GAME_CREDIT;
         introClickS.trigger();
      }
@@ -566,6 +569,9 @@ void playClick(){
           matchCard[1] = playCard[col][row];
           matchA = !matchA;
           countClick ++;
+          if(matchCard[1].cardID == 20){
+            jonesClick++;
+          }
           playClickS.trigger();
         }    
      }
