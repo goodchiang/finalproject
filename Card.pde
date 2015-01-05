@@ -2,8 +2,7 @@ class Card{
   int cardID;
   int cardState;
   String imgPath;
-  PImage img;
-  PImage back;
+  PImage img,back;
   
   Card(int state,int id){
     this.cardID = id;
@@ -15,9 +14,9 @@ class Card{
   
   void display(float x, float y){
     if(cardState == CARD_HIDE){
-      image(back, x+1, y+1, slotSize-1, slotSize-1);
+      image(back,     x+2, y+2, slotSize-2, slotSize-2);
     }else{
-      image(this.img, x+1, y+1, slotSize-1, slotSize-1);
+      image(this.img, x+2, y+2, slotSize-2, slotSize-2);
     }
   }
  

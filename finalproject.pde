@@ -11,6 +11,9 @@ Card [] matchCard;
 Snow [] snows;
 Anim introAnim,winAnim,loseAnim,creditAnim;
 
+PImage playBG,startBG,storyBG,ruleBG,winBG,loseBG,creditBG;
+PImage playButton,ruleA,ruleB,ruleC;
+
 final int GAME_START   = 0;
 final int GAME_INTRO   = 1;
 final int GAME_PLAYING = 2;
@@ -33,16 +36,13 @@ int score;
 int matchNums;
 int countDown;
 int currentTime,startTime,countClick,wrongClick,jonesClick;
-boolean intro_1,playintro,matchA;
-PImage playBG,startBG,storyBG,ruleBG,winBG,loseBG,creditBG;
-PImage playButton,ruleA,ruleB,ruleC;
+boolean levelUping,intro_1,playintro,matchA;
+
 
 void setup(){
   size(640,480);
-  background(100,100,100);
   imageMode(CENTER);
-  rectMode(CENTER);
-  textAlign(CENTER);
+  textAlign(RIGHT);
   minim = new Minim(this);
   
   slotW = 6;
@@ -51,9 +51,8 @@ void setup(){
   totalSlot = slotW*slotH;
   ix = int((width  - slotW*slotSize)/2);
   iy = int((height - slotH*slotSize)/2);
-  tranX = 67;
-  tranY = 30; 
-  score = 0;
+  tranX = 60;
+  tranY = 30;
   countDown = 20000;
   
   startBGM     = minim.loadFile  ("data/music/startBG.wav");
@@ -90,13 +89,13 @@ void setup(){
     snows[i] = new Snow();
   }
   introAnim  = new Anim(550,380,GAME_INTRO);
-  winAnim    = new Anim(160,300,GAME_WIN);
+  winAnim    = new Anim(160,260,GAME_WIN);
   loseAnim   = new Anim(width/2,480,GAME_LOSE);
   creditAnim = new Anim(60,370,GAME_CREDIT);
   
   reset();
   
-  gameState  = GAME_START;
+  gameState  = GAME_LOSE;
   levelState = LEVEL_1;
 }
 
@@ -118,20 +117,7 @@ void draw(){
       break;
     
     case GAME_PLAYING:
-      image(playBG,width/2,height/2);
-      switch(levelState){
-        case LEVEL_1:
-          playingSetting();
-          break;
-        
-        case LEVEL_2:
-          playingSetting();
-          break;
-        
-        case LEVEL_3:
-          playingSetting();
-          break;
-      }
+      playingSetting();
       break;
     
     case GAME_WIN:
@@ -160,7 +146,6 @@ void mouseClicked(){
   otherClick();
 }
 
-
 void drawSnow(){
   for (int i=0; i<snows.length; i++){
     snows[i].display();
@@ -186,6 +171,7 @@ void playingSetting(){
         break;
     }
   }else{
+    image(playBG,width/2,height/2);
     drawSlot();
     showCard();
     showTime();
@@ -197,12 +183,12 @@ void playingSetting(){
 }
 
 void drawSlot(){
+  strokeWeight(2);
+  stroke(91,55,21);
   for(int i = 0;i < slotW+1;i++){
-    stroke(0);
     line(i*slotSize+ix+tranX,iy+tranY,i*slotSize+ix+tranX,height-iy+tranY);
   }
   for(int i = 0;i < slotH+1;i++){
-    stroke(0);
     line(ix+tranX,iy+i*slotSize+tranY ,width-ix+tranX,iy+i*slotSize+tranY);
   }
 }
@@ -226,34 +212,35 @@ void showCard(){
 void showTime(){
   if(millis()-startTime < countDown){
     int restTime = int(countDown/1000-(millis()-startTime)/1000);
-    fill(100);
+    fill(0,115,109);
     textSize(120);
-    text(restTime,90,400);
+    text(restTime,165,380);
   }
   for(int i = 1;i < countDown/1000;i++){
     if(millis()-startTime >= countDown-i*1000 &&
        millis()-startTime <  countDown-i*1000+20){
-       countHintS.trigger();
+      countHintS.trigger();
     }
   }
   if(millis()-startTime >= countDown &&
      millis()-startTime <  countDown+20){
-     startHintS.trigger();
+    startHintS.trigger();
   }
 }
 
 void showScore(){
   if(millis()-startTime >= countDown){
-    fill(255);
-    textAlign(RIGHT);
+    fill(255,255,255);
     textSize(35);
-    text("SCORE",130,300);
+    text("SCORE",130,245);
     textSize(80);
-    text(score,180,380);
-    fill(100,0,0);
+    text(score,175,340);
+    fill(91,55,21);
     textSize(35);
-    text("Wrong:"+ wrongClick,160,430);
-    textAlign(CENTER);
+    text("Wrong "+ wrongClick,160,400);
+    if(levelState == LEVEL_2 || levelState == LEVEL_3){
+      text("Jones  "+ jonesClick,158,450);
+    }
   }
 }
 
@@ -294,16 +281,14 @@ void setCard(){
   for(int i = 0;i < totalSlot;i++){
     int a = int(random(totalSlot));
     int temp = cardIDList[i];
-
     cardIDList[i] = cardIDList[a];
     cardIDList[a] = temp;   
   }
   for(int i = 0;i < totalSlot;i++){     
     int col = int(i % slotW);
     int row = int(i / slotW);
-    int x = int(ix+col*slotSize+slotSize/2);
-    int y = int(iy+row*slotSize+slotSize/2);
-     
+    int x   = int(ix+col*slotSize+slotSize/2);
+    int y   = int(iy+row*slotSize+slotSize/2);   
     playCard[col][row] = new Card(CARD_SHOW,cardIDList[i]);
   }
 }
@@ -311,12 +296,14 @@ void setCard(){
 void checkMatch(){
   if(millis()-currentTime >= 1000){
     if(matchCard[0] != null && matchCard[1] != null){
-      //match
+      //MATCH
       if(matchCard[0].cardID == matchCard[1].cardID){
+        //DOUBLE CARD
         if(matchCard[0].cardID >= 0 &&
            matchCard[0].cardID <= 2){
            score += 20;
            matchNums++;
+        //NORMAL CARD   
         }else if(matchCard[0].cardID >= 3 &&
            matchCard[0].cardID <= 18){
            score += 10;
@@ -329,43 +316,43 @@ void checkMatch(){
         countClick = 0;
         wrongClick = 0;
         matchS.trigger();
-        //wrong 
-        }else{
-          //seconfd click special card
-          if(matchCard[1].cardID >= 19 && 
-             matchCard[1].cardID <= 21){
-             specialCard(1);
+      //WRONG MATCH
+      }else{
+        //second click special card
+        if(matchCard[1].cardID >= 19 && 
+           matchCard[1].cardID <= 21){
+           specialCard(1);
+        //normal wrong match   
+         }else{
+           for(int i = 0;i < 2 ;i++){
+             matchCard[i].cardState = CARD_HIDE;
+             matchCard[i] = null;
+           }
+           countClick = 0;
+           wrongClick ++;
+           if(wrongClick < 3){
+             wrongS.trigger();
            }else{
-             for(int i = 0;i < 2 ;i++){
-               matchCard[i].cardState = CARD_HIDE;
-               matchCard[i] = null;
-             }
-             countClick = 0;
-             wrongClick ++;
-             if(wrongClick < 3){
-               wrongS.trigger();
-             }
-             if(wrongClick >= 3){
-               score -= 5;
-               wrongClick = 0; 
-               specialBadS.trigger();
-             }
-          }
-       }
-       //wrong first Click special card
+             score -= 5;
+             wrongClick = 0; 
+             specialBadS.trigger();
+           }
+         }
+      }
+    //first click special card
     }else if(matchCard[0] != null && matchCard[1] == null){
-      specialCard(0);
+       specialCard(0);
     }
   }
 }
 
 void specialCard(int clickNO){
   switch(matchCard[clickNO].cardID){ 
-    case 19:
+    case 19: //LOOK AGAIN CARD
       for(int i = 0; i < slotW;i++){
         for(int j = 0; j < slotH;j++){
           if(playCard[i][j].cardState == CARD_HIDE){
-              playCard[i][j].cardState = CARD_SHOW;
+            playCard[i][j].cardState = CARD_SHOW;
           }
         }
       }
@@ -381,7 +368,7 @@ void specialCard(int clickNO){
       wrongClick = 0;
       break;
      
-    case 20:
+    case 20: //JONES CARD
       startTime = millis();
       setCard();
       score = int(score/2);
@@ -397,7 +384,7 @@ void specialCard(int clickNO){
       matchNums  = 0;
       break;
       
-    case 21:
+    case 21: //MOUSE CARD
       score = int(score/10);
       if(score > 0){
         specialBadS.trigger();
@@ -419,38 +406,41 @@ void levelUp(){
     switch(levelState){
       case LEVEL_1:
         if(score >= 100|| matchNums >= 18){
+          levelUping = true;
           if(millis()-currentTime >= 2000 &&
-             millis()-currentTime <= 2050){
+             millis()-currentTime <= 2020){
              playBGM.pause();
              levelUpS.trigger();
           }
           if(millis()-currentTime >= 5000){
-              playBGM.loop();
-              levelState = LEVEL_2;
-              setCard();
-              reset();
-            }
+             playBGM.loop();
+             levelState = LEVEL_2;
+             setCard();
+             reset();
+          }
         }
         break;
         
       case LEVEL_2:
         if(score >= 150|| matchNums >= 16){
+          levelUping = true;
           if(millis()-currentTime >= 2000 &&
-             millis()-currentTime <= 2050){
+             millis()-currentTime <= 2020){
              playBGM.pause();
              levelUpS.trigger();
           }
           if(millis()-currentTime >= 5000){
-              playBGM.loop();
-              levelState = LEVEL_3;
-              setCard();
-              reset();
-            }
+             playBGM.loop();
+             levelState = LEVEL_3;
+             setCard();
+             reset();
+          }
         }
         break;
         
       case LEVEL_3:
         if(score >= 200 || matchNums >= 15){
+          levelUping = true;
           if(millis()-currentTime >= 2000){
             gameState = GAME_WIN;
             playBGM.pause();
@@ -463,23 +453,21 @@ void levelUp(){
 }
 
 void checkLose(){
-  if(score <= 0){
-     if(millis()-currentTime >= 2000){
-       gameState = GAME_LOSE;
-       playBGM.pause();
-       loseS.trigger();
-     }
-  }else if(jonesClick >= 3){
-     if(millis()-currentTime >= 1000){
-       gameState = GAME_LOSE;
-       playBGM.pause();
-       loseS.trigger();
-     }
+  if(score <= 0 &&
+     millis()-currentTime >= 2000){
+     gameState = GAME_LOSE;
+     playBGM.pause();
+     loseS.trigger();
+  }
+  else if(jonesClick >= 3 &&
+          millis()-currentTime >= 1000){
+     gameState = GAME_LOSE;
+     playBGM.pause();
+     loseS.trigger();
   }
 }
  
-void reset(){
-  
+void reset(){  
   for(int i = 0; i < 2;i++){
     matchCard[i] = null;
   }
@@ -492,9 +480,11 @@ void reset(){
   countClick  = 0;
   wrongClick  = 0;
   jonesClick  = 0;
-  intro_1   = false;
-  playintro = true;
-  matchA    = true;
+  levelUping = false;
+  intro_1    = false;
+  playintro  = true;
+  matchA     = true;
+
   if(gameState == GAME_START){
     startBGM.loop();
   }
@@ -527,8 +517,7 @@ void introClick(){
       intro_1 = false;
     }else{
       introAnim.mouseClick = true;
-    }
-    
+    }   
   }
 }
 
@@ -548,6 +537,7 @@ void playClick(){
   if(mouseButton == LEFT &&
      gameState == GAME_PLAYING &&
      !playintro &&
+     !levelUping &&
      mouseX >= ix + tranX && mouseX <= ix+slotW*slotSize + tranX && 
      mouseY >= iy + tranY && mouseY <= iy+slotH*slotSize + tranY){
      int col = int((mouseX - ix - tranX)/slotSize);
@@ -570,8 +560,9 @@ void playClick(){
           if(matchCard[0].cardID == 20){
             jonesClick++;
           }
-          playClickS.trigger();
-        }else{
+          playClickS.trigger();  
+        }
+        else{
           matchCard[1] = playCard[col][row];
           matchA = !matchA;
           countClick ++;

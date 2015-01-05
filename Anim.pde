@@ -12,14 +12,14 @@ class Anim {
     this.y = y;
     this.animState = state;
     deadRole = loadImage("data/dead.png");
-    win    = new LoadAnimation("data/winAnim/win_", 20);
-    lose   = new LoadAnimation("data/loseAnim/dead_", 60);
-    intro  = new LoadAnimation("data/introIcon/next_", 20);
+    win    = new LoadAnimation("data/winAnim/win_",     20);
+    lose   = new LoadAnimation("data/loseAnim/dead_",   60);
+    intro  = new LoadAnimation("data/introIcon/next_",  20);
     credit = new LoadAnimation("data/creditIcon/icon_", 21);
   }
 
   void display() {
-    switch(animState) {
+    switch(animState){
       case GAME_INTRO:
         intro.display(x, y);
         break;
@@ -34,7 +34,7 @@ class Anim {
         
       case GAME_CREDIT:
         credit.display(x,y);
-      }
+    }
   }
 
   void move() {
@@ -60,6 +60,7 @@ class Anim {
         if(gameState == GAME_LOSE){
           speedY = -3;
           y += speedY;
+          
           if(y < -120){
             image(deadRole,550,230);
           }
@@ -67,5 +68,6 @@ class Anim {
         break;
       }
   }
+  
 }
 

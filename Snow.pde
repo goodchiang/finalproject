@@ -1,12 +1,9 @@
 class Snow {
   float maxVy = 2;
-  
   float angle;
   float amplitude;
   float vx, vy;
-  
   float x, y;
-  
   float size;
   float alpha;
   
@@ -38,10 +35,10 @@ class Snow {
     if (y > height){
       y = 0;
       vy = 1 + size*maxVy;
-    }
-    
+    }   
     fill(255,alpha);
     noStroke();
     ellipse(x,y,size*10,size*10);
   }
+  
 }

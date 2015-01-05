@@ -17,4 +17,5 @@ class LoadAnimation {
     frame = (frame+1) % imageCount;
     image(images[frame], xpos, ypos);
   }
+  
 }
