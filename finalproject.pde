@@ -238,8 +238,8 @@ void showTime(){
   }
   if(millis()-startTime >= countDown &&
      millis()-startTime <  countDown+20){
-       startHintS.trigger();
-    }
+     startHintS.trigger();
+  }
 }
 
 void showScore(){
@@ -299,13 +299,12 @@ void setCard(){
     cardIDList[a] = temp;   
   }
   for(int i = 0;i < totalSlot;i++){     
-   int col = int(i % slotW);
-   int row = int(i / slotW);
-   int x = int(ix+col*slotSize+slotSize/2);
-   int y = int(iy+row*slotSize+slotSize/2);
+    int col = int(i % slotW);
+    int row = int(i / slotW);
+    int x = int(ix+col*slotSize+slotSize/2);
+    int y = int(iy+row*slotSize+slotSize/2);
      
-   playCard[col][row] = new Card(CARD_SHOW,cardIDList[i]);
-   
+    playCard[col][row] = new Card(CARD_SHOW,cardIDList[i]);
   }
 }
 
