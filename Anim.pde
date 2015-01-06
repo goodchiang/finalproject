@@ -47,7 +47,7 @@ class Anim {
   
           if (x > width + 80) {
             gameState  = GAME_PLAYING;
-            levelState = LEVEL_3;
+            levelState = LEVEL_1;
             setCard();
             playintro  = true;
             mouseClick = false;
