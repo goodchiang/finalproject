@@ -91,7 +91,7 @@ void setup(){
   introAnim  = new Anim(550,380,GAME_INTRO);
   winAnim    = new Anim(160,260,GAME_WIN);
   loseAnim   = new Anim(width/2,480,GAME_LOSE);
-  creditAnim = new Anim(60,370,GAME_CREDIT);
+  creditAnim = new Anim(60,350,GAME_CREDIT);
   
   reset();
   
@@ -104,9 +104,6 @@ void draw(){
     case GAME_START:
       image(startBG,width/2,height/2);
       drawSnow();
-      fill(0,0,0,50);
-      rect(310,340,100,60);
-      rect(310,420,120,50);
       break;
       
     case GAME_INTRO:
@@ -537,13 +534,13 @@ void reset(){
 void startClick(){
   if(mouseButton == LEFT &&
      gameState == GAME_START){
-     if(mouseX > 310 && mouseX < 410 &&
-        mouseY > 345 && mouseY < 400){
+     if(mouseX > 310 && mouseX < 438 &&
+        mouseY > 357 && mouseY < 407){
         intro_1 = true;
         gameState = GAME_INTRO;
         introClickS.trigger();
      }
-     if(mouseX > 310 && mouseX < 430 &&
+     if(mouseX > 310 && mouseX < 438 &&
         mouseY > 420 && mouseY < 470){
         gameState = GAME_CREDIT;
         introClickS.trigger();
@@ -632,7 +629,7 @@ void otherClick(){
        }
     }else if(gameState == GAME_CREDIT){
        if(mouseX >= 0   && mouseX <= 100 && 
-          mouseY >= 380 && mouseY <= 480){
+          mouseY >= 380 && mouseY <= 450){
           gameState  = GAME_START;
           introClickS.trigger();
        }

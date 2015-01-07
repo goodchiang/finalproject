@@ -4,18 +4,18 @@ class Anim {
   float speedY = 0;
   int animState;
   boolean mouseClick = false;
-  PImage deadRole;
-  LoadAnimation intro,win,lose,credit;
+  LoadAnimation intro,win,lose,doll,credit;
 
   Anim(float x, float y, int state) {
     this.x = x;
     this.y = y;
     this.animState = state;
-    deadRole = loadImage("data/dead.png");
-    win    = new LoadAnimation("data/winAnim/win_",     20);
+
+    win    = new LoadAnimation("data/winAnim/win_",     30);
     lose   = new LoadAnimation("data/loseAnim/dead_",   60);
+    doll   = new LoadAnimation("data/loseDoll/dead_",   60);
     intro  = new LoadAnimation("data/introIcon/next_",  20);
-    credit = new LoadAnimation("data/creditIcon/icon_", 21);
+    credit = new LoadAnimation("data/creditIcon/icon_", 20);
   }
 
   void display() {
@@ -63,7 +63,7 @@ class Anim {
           y += speedY;
           
           if(y < -120){
-            image(deadRole,550,230);
+            doll.display(560,240);
           }
         }
         break;
