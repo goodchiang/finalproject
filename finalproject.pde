@@ -6,9 +6,9 @@ AudioSample winS,loseS;
 AudioSample introClickS,playClickS,countHintS,startHintS;
 AudioSample matchS,wrongS,specialGoodS,specialBadS,levelUpS;
 
-Card [][]playCard;
-Card [] matchCard;
-Snow [] snows;
+Card[][] playCard;
+Card[] matchCard;
+Snow[] snows;
 Anim introAnim,winAnim,loseAnim,creditAnim;
 
 PImage playBG,startBG,storyBG,ruleBG,winBG,loseBG,creditBG;
