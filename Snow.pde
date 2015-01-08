@@ -5,7 +5,7 @@ class Snow {
   float vx, vy;
   float x, y;
   float snowSize;
-  float alpha;
+  float snowAlpha;
   
   Snow(){
     x = random(0,width);
@@ -15,7 +15,7 @@ class Snow {
     vx = 0;
     vy = 1 + snowSize*maxVy; // at least 1
 
-    alpha = random(255);
+    snowAlpha = random(255);
     
     angle = random(2*PI);
     amplitude = random(2);
@@ -36,7 +36,7 @@ class Snow {
       y  = 0;
       vy = 1 + snowSize*maxVy;
     }   
-    fill(255,alpha);
+    fill(255,snowAlpha);
     noStroke();
     ellipse(x,y,snowSize*10,snowSize*10);
   }

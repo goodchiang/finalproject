@@ -196,8 +196,8 @@ void drawSlot(){
 void showCard(){
   for(int i = 0;i < slotW;i++){
     for(int j = 0;j < slotH;j++){
-      int x = ix+i*slotSize+slotSize/2 + tranX;
-      int y = iy+j*slotSize+slotSize/2 + tranY;
+      int x = int(ix+i*slotSize+slotSize/2 + tranX);
+      int y = int(iy+j*slotSize+slotSize/2 + tranY);
       if(playCard[i][j].cardState == CARD_SHOW){
         if(millis()-startTime >= countDown &&
            millis()-startTime <= countDown+100){
@@ -220,7 +220,7 @@ void showTime(){
     textSize(15);
     text("second(s)",175,420);
   }
-  for(int i = 1;i < countDown/1000;i++){
+  for(int i = 1;i < int(countDown/1000);i++){
     if(millis()-startTime >= countDown-i*1000 &&
        millis()-startTime <  countDown-i*1000+20){
       countHintS.trigger();
