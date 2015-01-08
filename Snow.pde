@@ -4,16 +4,16 @@ class Snow {
   float amplitude;
   float vx, vy;
   float x, y;
-  float size;
+  float snowSize;
   float alpha;
   
   Snow(){
     x = random(0,width);
     y = random(-100,0);
-    size = random(1);
+    snowSize = random(1);
     
     vx = 0;
-    vy = 1 + size*maxVy; // at least 1
+    vy = 1 + snowSize*maxVy; // at least 1
 
     alpha = random(255);
     
@@ -34,11 +34,11 @@ class Snow {
     }
     if (y > height){
       y  = 0;
-      vy = 1 + size*maxVy;
+      vy = 1 + snowSize*maxVy;
     }   
     fill(255,alpha);
     noStroke();
-    ellipse(x,y,size*10,size*10);
+    ellipse(x,y,snowSize*10,snowSize*10);
   }
   
 }
