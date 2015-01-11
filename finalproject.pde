@@ -445,6 +445,7 @@ void levelUp(){
              }
           }
           if(millis()-currentTime >= 5000){
+             playBGM.rewind();
              playBGM.loop();
              levelState = LEVEL_2;
              setCard();
@@ -470,6 +471,7 @@ void levelUp(){
              }
           }
           if(millis()-currentTime >= 5000){
+             playBGM.rewind();
              playBGM.loop();
              levelState = LEVEL_3;
              setCard();
@@ -541,6 +543,7 @@ void reset(){
   matchA     = true;
 
   if(gameState == GAME_START){
+    startBGM.rewind();
     startBGM.loop();
   }
 }
