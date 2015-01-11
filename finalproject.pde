@@ -200,7 +200,7 @@ void showCard(){
       int y = int(iy+j*slotSize+slotSize/2 + tranY);
       if(playCard[i][j].cardState == CARD_SHOW){
         if(millis()-startTime >= countDown &&
-           millis()-startTime <= countDown+100){
+           millis()-startTime <= countDown+500){
            playCard[i][j].cardState = CARD_HIDE;
         } 
       }
